@@ -2,8 +2,6 @@
 
 Repository showcasing the mandatory assignements in the class IN3110 – Problem Solving with High-Level Languages.
 
-The assignment folders contains a description describing how the assignment is to be solved including the solution to the assignment.
-
 ## Assignment1
   - First git repository
 
