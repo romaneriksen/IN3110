@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Strømpris</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Helvetica, Arial, sans-serif;
+      }
+
+      .error {
+        color: red;
+      }
+      .topnav {
+        overflow: hidden;
+        background-color: #333;
+      }
+
+      .topnav a {
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+      }
+
+      .topnav a:hover {
+        background-color: #69dadb;
+        color: black;
+      }
+
+      .topnav a.active {
+        background-color: #193498;
+        color: white;
+      }
+
+      #outer {
+        width:100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      #inner {
+        display: flex;
+        justify-content: left;
+      }
+
+      p {
+        text-align: center;
+        width: 550px;
+      }
+
+    </style>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm//vega@5"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm//vega-lite@5.6.0"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm//vega-embed@6"
+    ></script>
+  </head>
+  <body>
+    <!-- Add Navigation Bar to Docs.
+    -->
+    
+    <h1> Plot of electricity prices in Norway </h1>
+
+    <p> 
+      Electricity prices for the five different electricity zones in 
+      Norway. The prices were fetched from the hvakosterstrommen.no/strompris-api 
+      API. By default, the plot shows the electricity prices for 01-12-2022 and the 
+      preceding seven days
+    </p>
+
+    
+    <div id="vis"></div>
+    <!-- Create Form -->
+    <form action="javascript:refreshPlot()" id="price-form">
+      <!--
+      -->
+<!--    
+    <input type="checkbox" id="oslo" name="Oslo" value="NO1">
+    <label for="oslo"> Oslo </label><br>
+
+    <input type="checkbox" id="kristiansand" name="Kristiansand">
+    <label for="kristiansand"> Kristiansand </label><br>
+
+    <input type="checkbox" id="trondheim" name="Trondheim">
+    <label for="trondheim"> Trondheim </label><br>
+
+    <input type="checkbox" id="tromsø" name="Tromsø">
+    <label for="tromsø"> Tromsø </label><br>
+
+    <input type="checkbox" id="bergen" name="Bergen">
+    <label for="bergen"> Bergen </label><br>
+-->
+    <!-- Create input field for End date -->
+    <label for="end"> End date: </label>
+    <input type="date" id="end" name="end" value="2022-12-01"> 
+    <!-- Create input field for number of days -->
+    <label for="days"> Days: </label>
+    <input type="number" id="days" name="days" value="7">
+    <!-- Create button which refreshes the plot -->
+    <input type="button" onclick="refreshPlot()" id="refresh" name="refresh" value="Refresh">
+
+  
+    </form>
+
+    <script type="text/javascript">
+      async function refreshPlot() {
+        // begin constructing URL to request the plot JSON
+        const plotUrl = new URL(
+          `${document.location.protocol}//${document.location.host}/plot_prices.json`
+        );
+
+        // get inputs from the form
+
+        // get selected location checkboxes
+        for (checkbox of document
+          .getElementById("price-form")
+          .querySelectorAll("input[name=locations]")) {
+          if (checkbox.checked) {
+            plotUrl.searchParams.append("locations", checkbox.value);
+          }
+        }
+        var endInput = document.getElementById("end");
+        if (endInput) {
+          plotUrl.searchParams.append("end", endInput.value);
+        } else {
+          console.warn('No input with id="end"');
+        }
+
+        var daysInput = document.getElementById("days");
+        if (daysInput) {
+          plotUrl.searchParams.append("days", daysInput.value);
+        } else {
+          console.warn('No input with id="days"');
+        }
+
+        console.log(`requesting new chart from ${plotUrl.href}`);
+        var response = await fetch(plotUrl.href);
+        var spec = await response.json();
+
+        var embedOpt = { mode: "vega-lite" };
+
+        function showError(el, error) {
+          el.innerHTML =
+            '<div class="error" style="color:red;">' +
+            "<p>JavaScript Error: " +
+            error.message +
+            "</p>" +
+            "<p>This usually means there's a typo in your chart specification. " +
+            "See the javascript console for the full traceback.</p>" +
+            "</div>";
+          throw error;
+        }
+        const el = document.getElementById("vis");
+        vegaEmbed("#vis", spec, embedOpt).catch((error) =>
+          showError(el, error)
+        );
+      }
+      refreshPlot();
+    </script>
+  </body>
+</html>
