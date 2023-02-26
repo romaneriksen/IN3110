@@ -2,11 +2,19 @@
 
 Repository showcasing the mandatory assignements in the class IN3110 – Problem Solving with High-Level Languages.
 
-The Oblig folders contains a description describing how the assignment is to be solved including the solution to the assignment.
+The assignment folders contains a description describing how the assignment is to be solved including the solution to the assignment.
 
-## Oblig1
-  - 
+## Assignment1
+  - First git repository
 
-## Oblig2
+## Assignment2
+  - Implementation of a Array class in python
 
-## Oblig3
+## Assignment3
+  - Creating a python package 
+
+## Assignment4
+  - Web scraping
+
+## Assignment5
+  - Building a web-based visualization of energy prices in Norway, using the Hva Koster Strømmen API
