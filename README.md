@@ -15,4 +15,4 @@ Repository showcasing the mandatory assignements in the class IN3110 – Problem
   - Web scraping
 
 ## Assignment5
-  - Building a web-based visualization of energy prices in Norway, using the Hva Koster Strømmen API
+  - Building a web-based visualization of energy prices in Norway, using the "Hva Koster Strømmen" API
