@@ -6,7 +6,7 @@ Repository showcasing the mandatory assignements in the class IN3110 – Problem
   - First git repository
 
 ## Assignment2
-  - Implementation of a Array class in python
+  - Implementation of an Array class in python
 
 ## Assignment3
   - Creating a python package 
